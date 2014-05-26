@@ -21,32 +21,36 @@ object SingleFeatureReg {
 			case x :: xs => 1.0 :: List[Double](x)
 			case _ => throw new NoSuchElementException
         })
-        println("X: " + X)
+        println("X (input, city population): " + X)
         
         // target: franchise profit
         val y = data.map(_ drop 1).flatten
-        println("y: " + y)
+        println("y (target, profit): " + y)
         
         // size of data
         val m = y.length
-        println("m: " + m)
+        println("data size - m: " + m)
         
         val theta = List(List(0.0), List(0.0))
         
         val iterations = 1500 // regression cycles
-        //val iterations = 15 // diagnostic
         val alpha = 0.01 // gradient step size
         
         // Initial cost calc
         val J = computeCost(X, y, theta)
-        println("J: " + J)
+        println("Initial cost calculation - J: " + J)
         
-        // theta calc via gradient descent
-        val result:(List[List[Double]], List[Double]) = gradientDescent(X, y, theta, alpha, iterations)
-        println("main - result: " + result)
+        // theta (slope factor) calc via gradient descent
+        // and J_history (cost function)
+        val result:(List[List[Double]], List[Double]) = 
+            gradientDescent(X, y, theta, alpha, iterations)
+            
+        println("gradient descent - theta final: " + result._1.flatten + 
+                "\nJ_history (cost function): " + result._2)
     }
     
-    def computeCost(X: List[List[Double]], y: List[Double], theta: List[List[Double]]): Double = {
+    def computeCost(X: List[List[Double]], y: List[Double], theta: List[List[Double]])
+    		: Double = {
         val m = y.length
         val predictions = matxProd(X, theta).flatten
         val sqrErrors = dotPow(diff(predictions, y), 2)
@@ -67,32 +71,26 @@ object SingleFeatureReg {
         val m = y.length
         val x = X map (x => x(1))
                 
-        def iterGradDesc(iter: Int, theta: List[List[Double]]): List[List[Double]] = {
+        def iterGradDesc(iter: Int, theta: List[List[Double]], J_history: List[Double])
+        		:(List[List[Double]], List[Double]) = {
+            
             if(!(iter > iterations)) { // iteration bounds
-                                
                 val errorsSum = diff(matxProd(X, theta).flatten, y).reduceLeft(_+_)
                 val newTheta_1 = theta(0)(0) - (alpha * (1.0/m) * errorsSum)
-                println("newTheta_1: " + newTheta_1)
                 
                 val errorsProdXSum = dotProd(diff(matxProd(X, theta).flatten, y), x)
                 val newTheta_2 = theta(1)(0) - (alpha * (1.0/m) * errorsProdXSum)
-                println("newTheta_2: " + newTheta_2)
                 
                 val newTheta = List(List(newTheta_1), List(newTheta_2))
                 val J = computeCost(X, y, newTheta)
                 
-                iterGradDesc(iter + 1, newTheta) // recursive iteration
+                iterGradDesc(iter + 1, newTheta, J :: J_history) // recursive iteration
             }
-            else theta // final
+            else (theta, J_history) // final
         }
         
-        val finalTheta = iterGradDesc(0, theta)
-        
-        (finalTheta, List(0.0)) // STUB - NIX
-    }
-
-    def diagnostic(elem: Any) {
-        println(elem)
+        // initiate gradient descent with empty theta and empty cost history (J)
+        iterGradDesc(0, theta, List(0.0))
     }
 }
 
