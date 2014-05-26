@@ -33,8 +33,8 @@ object SingleFeatureReg {
         
         val theta = List(List(0.0), List(0.0))
         
-        //val iterations = 1500 // regression cycles
-        val iterations = 15 // diagnostic
+        val iterations = 1500 // regression cycles
+        //val iterations = 15 // diagnostic
         val alpha = 0.01 // gradient step size
         
         // Initial cost calc
@@ -42,7 +42,7 @@ object SingleFeatureReg {
         println("J: " + J)
         
         // theta calc via gradient descent
-        val result:((Double, Double), List[Double]) = gradientDescent(X, y, theta, alpha, iterations)
+        val result:(List[List[Double]], List[Double]) = gradientDescent(X, y, theta, alpha, iterations)
         println("main - result: " + result)
     }
     
@@ -62,12 +62,12 @@ object SingleFeatureReg {
         theta: List[List[Double]],
         alpha: Double, 
         iterations: Int
-		): ((Double, Double), List[Double]) = {
+		): (List[List[Double]], List[Double]) = {
         
         val m = y.length
         val x = X map (x => x(1))
                 
-        def iterGradDesc(iter: Int, theta: List[List[Double]]) {
+        def iterGradDesc(iter: Int, theta: List[List[Double]]): List[List[Double]] = {
             if(!(iter > iterations)) { // iteration bounds
                                 
                 val errorsSum = diff(matxProd(X, theta).flatten, y).reduceLeft(_+_)
@@ -78,13 +78,17 @@ object SingleFeatureReg {
                 val newTheta_2 = theta(1)(0) - (alpha * (1.0/m) * errorsProdXSum)
                 println("newTheta_2: " + newTheta_2)
                 
-                iterGradDesc(iter + 1, List(List(newTheta_1), List(newTheta_2))) // recursive iteration
+                val newTheta = List(List(newTheta_1), List(newTheta_2))
+                val J = computeCost(X, y, newTheta)
+                
+                iterGradDesc(iter + 1, newTheta) // recursive iteration
             }
+            else theta // final
         }
         
-        iterGradDesc(0, theta)
+        val finalTheta = iterGradDesc(0, theta)
         
-        ((0.0, 0.0), List(0.0)) // STUB - NIX
+        (finalTheta, List(0.0)) // STUB - NIX
     }
 
     def diagnostic(elem: Any) {
