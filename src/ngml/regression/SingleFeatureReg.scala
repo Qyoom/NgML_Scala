@@ -69,15 +69,18 @@ object SingleFeatureReg {
         
         //errorsProdXSum = sum((X * theta - y) .* x)
         val errorsProdXSum = dotProd(diff(matxProd(X, theta).flatten, y), x)
-        println("errorsProdXSum: " + errorsProdXSum)
                 
         def iterGradDesc(iter: Int) {
             if(!(iter > iterations)) { // recursion/iteration bounds
-                
-                val thetaTemp = (0.0, 0.0)
-                
-                // errorsSum = sum(X * theta - y)
+                                
                 val errorsSum = diff(matxProd(X, theta).flatten, y).reduceLeft(_+_)
+                val thetaTemp_1 = (theta(0)(0)) - (alpha * (1.0/m) * errorsSum)
+                println("thetaTemp_1: " + thetaTemp_1)
+                
+                val errorsProdXSum = dotProd(diff(matxProd(X, theta).flatten, y), x)
+                //theta_temp(2) = theta(2) - alpha * (1/m) * errorsProdXSum
+                val thetaTemp_2 = (theta(1)(0)) - (alpha * (1.0/m) * errorsProdXSum)
+                println("thetaTemp_2: " + thetaTemp_2)
                 
                 iterGradDesc(iter + 1) // recursive iteration
             }
