@@ -86,6 +86,8 @@ object SingleFeatureReg {
         		:(List[List[Double]], List[Double]) = {
             
             if(!(iter > iterations)) { // iteration bounds
+                // This method looks at every example in the entire training 
+                // set on every step, and is called batch gradient descent.
                 val errorsSum = diff(matxProd(X, theta).flatten, y).reduceLeft(_+_)
                 // update
                 val newTheta_1 = theta(0)(0) - (alpha * (1.0/m) * errorsSum)
