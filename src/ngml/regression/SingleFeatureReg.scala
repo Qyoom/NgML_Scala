@@ -87,9 +87,11 @@ object SingleFeatureReg {
             
             if(!(iter > iterations)) { // iteration bounds
                 val errorsSum = diff(matxProd(X, theta).flatten, y).reduceLeft(_+_)
+                // update
                 val newTheta_1 = theta(0)(0) - (alpha * (1.0/m) * errorsSum)
                 
                 val errorsProdXSum = dotProd(diff(matxProd(X, theta).flatten, y), x)
+                // update
                 val newTheta_2 = theta(1)(0) - (alpha * (1.0/m) * errorsProdXSum)
                 
                 val newTheta = List(List(newTheta_1), List(newTheta_2))
