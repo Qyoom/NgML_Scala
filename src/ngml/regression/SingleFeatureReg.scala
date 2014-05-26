@@ -66,27 +66,23 @@ object SingleFeatureReg {
         
         val m = y.length
         val x = X map (x => x(1))
-        
-        //errorsProdXSum = sum((X * theta - y) .* x)
-        val errorsProdXSum = dotProd(diff(matxProd(X, theta).flatten, y), x)
                 
-        def iterGradDesc(iter: Int) {
-            if(!(iter > iterations)) { // recursion/iteration bounds
+        def iterGradDesc(iter: Int, theta: List[List[Double]]) {
+            if(!(iter > iterations)) { // iteration bounds
                                 
                 val errorsSum = diff(matxProd(X, theta).flatten, y).reduceLeft(_+_)
-                val thetaTemp_1 = (theta(0)(0)) - (alpha * (1.0/m) * errorsSum)
-                println("thetaTemp_1: " + thetaTemp_1)
+                val newTheta_1 = theta(0)(0) - (alpha * (1.0/m) * errorsSum)
+                println("newTheta_1: " + newTheta_1)
                 
                 val errorsProdXSum = dotProd(diff(matxProd(X, theta).flatten, y), x)
-                //theta_temp(2) = theta(2) - alpha * (1/m) * errorsProdXSum
-                val thetaTemp_2 = (theta(1)(0)) - (alpha * (1.0/m) * errorsProdXSum)
-                println("thetaTemp_2: " + thetaTemp_2)
+                val newTheta_2 = theta(1)(0) - (alpha * (1.0/m) * errorsProdXSum)
+                println("newTheta_2: " + newTheta_2)
                 
-                iterGradDesc(iter + 1) // recursive iteration
+                iterGradDesc(iter + 1, List(List(newTheta_1), List(newTheta_2))) // recursive iteration
             }
         }
         
-        iterGradDesc(0)
+        iterGradDesc(0, theta)
         
         ((0.0, 0.0), List(0.0)) // STUB - NIX
     }
