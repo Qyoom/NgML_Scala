@@ -45,8 +45,19 @@ object SingleFeatureReg {
         val result:(List[List[Double]], List[Double]) = 
             gradientDescent(X, y, theta, alpha, iterations)
             
-        println("gradient descent - theta final: " + result._1.flatten + 
-                "\nJ_history (cost function): " + result._2)
+        val finalTheta = result._1
+        val J_history = result._2
+            
+        println("gradient descent - theta final: " + finalTheta.flatten + 
+                "\nJ_history (cost function): " + J_history)
+                
+        // Predict values for population size of 35,000
+        val pop1 = List(List(1.0), List(3.5))
+        val predict1 = matxProd(List(List(1.0, 3.5)), finalTheta)
+        println("Predicted profit for population size of 35,000: " + (predict1(0)(0)) * 10000)
+        // Predict values for population size of 70,000
+        val predict2 = matxProd(List(List(1.0, 7.0)), finalTheta)
+        println("Predicted profit for population size of 70,000: " + predict2(0)(0) * 10000)
     }
     
     def computeCost(X: List[List[Double]], y: List[Double], theta: List[List[Double]])

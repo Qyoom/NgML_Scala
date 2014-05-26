@@ -6,18 +6,19 @@ object MatrixOps {
     
     // Matrix multiplication
 	def matxProd(m1: List[List[Double]], m2: List[List[Double]]): List[List[Double]] = {
-	    for(m1row <- m1) yield
-	    for(m2col <- transpose(m2)) yield
-	    dotProd(m1row, m2col)
+		for(m1row <- m1) yield
+		for(m2col <- transpose(m2)) yield
+		dotProd(m1row, m2col)
     }
 
     // http://en.wikipedia.org/wiki/Dot_product
     def dotProd(v1: List[Double], v2: List[Double]): Double = {
-	    require(v1.length == v2.length, "dotProduct - Rows must be of equal length. " + 
-	            "v1.length;" + v1.length + " v2.length:" + v2.length)
-	    val zipped = v1 zip v2
-	    val dotProdRes = zipped map {tup: (Double, Double) => tup._1 * tup._2} reduceLeft(_ + _)
-	    dotProdRes
+		require(v1.length == v2.length, "dotProduct - Rows must be of equal length. " + 
+            "v1.length;" + v1.length + " v2.length:" + v2.length +
+            "\nv1: " + v1 + " v2: " + v2)
+        val zipped = v1 zip v2
+        val dotProdRes = zipped map {tup: (Double, Double) => tup._1 * tup._2} reduceLeft(_ + _)
+        dotProdRes
     }
   
     def transpose(m: List[List[Double]]): List[List[Double]] = { // Recursive
