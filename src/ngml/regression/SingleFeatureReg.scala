@@ -40,7 +40,7 @@ object SingleFeatureReg {
         val J = computeCost(X, y, theta)
         println("Initial cost calculation - J: " + J)
         
-        // theta (slope factor) calc via gradient descent
+        // theta (slope parameters) calc via gradient descent
         // and J_history (cost function)
         val result:(List[List[Double]], List[Double]) = 
             gradientDescent(X, y, theta, alpha, iterations)
