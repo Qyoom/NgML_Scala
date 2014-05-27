@@ -81,7 +81,8 @@ object SingleFeatureReg {
         
         val m = y.length
         val x = X map (x => x(1))
-                
+        
+        // Returns final theta and history of cost function
         def iterGradDesc(iter: Int, theta: List[List[Double]], J_history: List[Double])
         		:(List[List[Double]], List[Double]) = {
             
