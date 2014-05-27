@@ -5,10 +5,10 @@ import scala.math._
 object MatrixOps {
     
 	// Matrix multiplication
-	def matxProd(m1: List[List[Double]], m2: List[List[Double]]): List[List[Double]] = {
-		for(m1row <- m1) yield
-		for(m2col <- transpose(m2)) yield
-		dotProd(m1row, m2col)
+    def matxProd(m1: List[List[Double]], m2: List[List[Double]]): List[List[Double]] = {
+	for(m1row <- m1) yield
+	for(m2col <- transpose(m2)) yield
+	dotProd(m1row, m2col)
     }
 
     // http://en.wikipedia.org/wiki/Dot_product
