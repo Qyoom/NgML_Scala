@@ -16,7 +16,7 @@ object SingleFeatureReg {
             line.split(",").toList.map(str => str.toDouble))
         println("data: " + data)
         
-        // Bias prepended to independent variable (city population)
+        // Intersection prepended to independent variable (city population)
         val X:List[List[Double]] = data map(_ match {
 			case x :: xs => 1.0 :: List[Double](x)
 			case _ => throw new NoSuchElementException
