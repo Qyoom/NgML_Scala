@@ -6,6 +6,7 @@ object MatrixOps {
     
     // Matrix multiplication
     def matxProd(m1: List[List[Double]], m2: List[List[Double]]): List[List[Double]] = {
+        //println("matxProd = m1 size: " + size(m1) + " m2 size: " + size(m2))
 		for(m1row <- m1) yield
 		for(m2col <- transpose(m2)) yield
 		dotProd(m1row, m2col)
@@ -13,7 +14,7 @@ object MatrixOps {
 
     // http://en.wikipedia.org/wiki/Dot_product
     def dotProd(v1: List[Double], v2: List[Double]): Double = {
-		require(v1.length == v2.length, "dotProduct - Rows must be of equal length. " + 
+		require(v1.length == v2.length, "dotProduct - Lists must be of equal length. " + 
             "v1.length;" + v1.length + " v2.length:" + v2.length +
             "\nv1: " + v1 + " v2: " + v2)
         val zipped = v1 zip v2
