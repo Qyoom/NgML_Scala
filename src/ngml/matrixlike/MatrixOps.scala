@@ -4,7 +4,7 @@ import scala.math._
 
 object MatrixOps {
     
-	// Matrix multiplication
+    // Matrix multiplication
     def matxProd(m1: List[List[Double]], m2: List[List[Double]]): List[List[Double]] = {
 	for(m1row <- m1) yield
 	for(m2col <- transpose(m2)) yield
