@@ -24,9 +24,14 @@ object MultiVariantLinearReg_exer1_main {
         println("m: " + m)
         
         val normTup = featureNormalize(X)
-        println("X_norm: " + normTup)
+        println("X_norm: " + normTup._1)
         println("mu: " + normTup._2)
         println("sigma: " + normTup._3)
-    }
-
+        
+        // Intersect prepended to single independent variables (sq. ft., number of rooms)
+        val Xi = normTup._1.map(x => 1 :: x)
+        println("X with intercept: " + Xi)
+    } // end - main
 }
+
+
