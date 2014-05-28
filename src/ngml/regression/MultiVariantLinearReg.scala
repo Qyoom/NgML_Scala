@@ -29,17 +29,24 @@ object MultiVariantLinearReg {
             }
         }
         
-        def calcSigma(X: List[List[Double]], stdDevs: List[Double]): List[Double] = {
+        def normalize(
+            X: List[List[Double]],
+            means: List[Double],
+            stdDeviations: List[Double])
+        	: List[List[Double]] = {
             
-            
-            List(0.0) // STUB
+            if(X.isEmpty) Nil
+            else {
+                val normedVal = X.head.map(x => (x - means.head) / stdDeviations.head)
+                normedVal :: normalize(X.tail, means, stdDeviations)
+            }
         }
         
         val means = calcColsMu(X)
         val variances = avgSqrDiffs(X, means)
         val stdDeviations = variances.map(v => sqrt(v))
-        val sigma = calcSigma(X, stdDeviations)
+        val X_norm = normalize(X, means, stdDeviations)
         
-        (List(List(0.0)), means, List(0.0)) // STUB
-    }
+        (X_norm, means, stdDeviations)
+    } // end - featureNormalize
 }
