@@ -1,6 +1,7 @@
 package ngml.regression
 
 import scala.io.Source
+import ngml.regression.MultiVariantLinearReg._
 
 object MultiVariantLinearReg_exer1_main {
 
@@ -21,6 +22,11 @@ object MultiVariantLinearReg_exer1_main {
         
         val m = y.length
         println("m: " + m)
+        
+        val normTup = featureNormalize(X)
+        println("X_norm: " + normTup)
+        println("mu: " + normTup._2)
+        println("sigma: " + normTup._3)
     }
 
 }
