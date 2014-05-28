@@ -18,7 +18,7 @@ object MultiVariantLinearReg {
                 val col = X map(_ head)                
                 val diffs = col.map(x => x - mu.head)
                 val sqrDiffs = diffs.map(x => pow(x, 2))
-                val avgSqrDiffs = sqrDiffs.reduceRight(_+_) / X.length
+                val avgSqrDiffs = sqrDiffs.reduceRight(_+_) / (X.length - 1) // the -1 is important for training sets
                 
                 val otherCols = X map(_ tail)
                 avgSqrDiffs :: calcAvgSqrDiffs(otherCols, mu.tail)
