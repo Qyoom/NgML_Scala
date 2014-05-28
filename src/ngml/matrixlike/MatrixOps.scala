@@ -43,6 +43,24 @@ object MatrixOps {
         v map (n => pow(n, exp))
     }
     
+    def sumCols(m: List[List[Double]]): List[Double] = {
+		if(m.head.isEmpty) Nil
+		else {
+			val col = m map(_ head)
+			val otherCols = m map(_ tail)
+			col.reduceRight(_+_) :: sumCols(otherCols) // recursive
+		}
+	}
+  
+	def sumRows(m: List[List[Double]]): List[Double] = {
+		val rowSums = for{ // iterative
+	  		i <- (0 to m.length - 1)
+	  		rowSum = m(i).reduceRight(_+_)
+		} yield rowSum
+  	
+		rowSums.toList
+	}
+	    
     def size(m: List[List[Double]]): (Double, Double) = {
         val rowCnt = m.length
         val colCnt = m.head.length
