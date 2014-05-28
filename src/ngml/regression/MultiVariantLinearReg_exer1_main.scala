@@ -12,6 +12,15 @@ object MultiVariantLinearReg_exer1_main {
         val data = file.getLines.toList.map( line => 
             line.split(",").toList.map(str => str.toDouble))
         println("data: " + data)
+        
+        val X = data.map(x => x.take(2))
+        println("X: " + X)
+        
+        val y = data.map(x => x.drop(2))
+        println("y: " + y)
+        
+        val m = y.length
+        println("m: " + m)
     }
 
 }
