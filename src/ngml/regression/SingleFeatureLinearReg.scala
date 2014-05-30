@@ -47,7 +47,7 @@ object SingleFeatureLinearReg {
                 val newTheta = List(List(newTheta_1), List(newTheta_2))
                 val J = computeCost(X, y, newTheta)
                 
-                iterGradDesc(iter + 1, newTheta, J :: J_history) // recursive iteration
+                iterGradDesc(iter + 1, newTheta, J_history ++ List(J)) // recursive iteration
             }
             else (theta, J_history) // final
         }
