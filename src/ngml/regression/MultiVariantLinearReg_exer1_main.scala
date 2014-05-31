@@ -2,6 +2,7 @@ package ngml.regression
 
 import scala.io.Source
 import ngml.regression.MultiVariantLinearReg._
+import ngml.matrixlike.MatrixOps._
 
 object MultiVariantLinearReg_exer1_main {
 
@@ -28,7 +29,7 @@ object MultiVariantLinearReg_exer1_main {
         println("mu: " + normTup._2) // vector
         println("sigma: " + normTup._3) // vector
         
-        // Intersect prepended to single independent variables (sq. ft., number of rooms)
+        // Intersect prepended to independent variables (sq. ft., number of rooms)
         val Xi = normTup._1.map(x => 1.0 :: x)
         println("X with intercept: " + Xi)
         
@@ -49,8 +50,13 @@ object MultiVariantLinearReg_exer1_main {
         val finalTheta = result._1
         val J_history  = result._2
             
-        println("Multivariable gradient descent - theta final: " + finalTheta.flatten + 
+        println("Multivariable gradient descent training - theta final: " + finalTheta.flatten + 
                 "\nJ_history (i.e. cost function): " + J_history)
+        
+        // Predict the price of a 1650 sq-ft, 3 br house
+        val house1 = List(List(1.0, 1650.0, 3.0))
+        val price1 = matxProd(house1, finalTheta)
+        println("Predicted price of a 1650 sq-ft, 3 br house: " + (price1(0)(0)))
         
     } // end - main
 }
