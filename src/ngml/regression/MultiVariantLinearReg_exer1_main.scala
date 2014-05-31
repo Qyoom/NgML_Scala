@@ -44,17 +44,14 @@ object MultiVariantLinearReg_exer1_main {
         
         // theta (slope parameters) calc via gradient descent
         // Also J_history of cost function output
-         /*val result:(List[List[Double]], List[Double]) = 
-            gradientDescentMulti(Xi, y, theta, alpha, iterations)*/
+        val result:(List[List[Double]], List[Double]) = 
+            gradientDescentMulti(Xi, y, theta, alpha, iterations)
             
-        /*
         val finalTheta = result._1
         val J_history  = result._2
             
         println("Multivariable gradient descent - theta final: " + finalTheta.flatten + 
                 "\nJ_history (i.e. cost function): " + J_history)
-                
-        */
         
     } // end - main
 }

@@ -66,4 +66,9 @@ object MatrixOps {
         val colCnt = m.head.length
         (rowCnt, colCnt)
     }
+    
+    // convenience, transform List[] to List[List[]]
+	def vectToMatrix(list: List[Double]): List[List[Double]] = {
+		list.map(d => List(d))
+	}
 }
