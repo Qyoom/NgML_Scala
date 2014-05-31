@@ -37,7 +37,6 @@ object MultiVariantLinearReg_exer1_main {
         val iterations = 400 // regression cycles
         val alpha = 0.01 // gradient step size
         
-        // cost function
         // Initial cost calc
         val J = computeCost(Xi, y, theta)
         println("Initial cost calculation, i.e. J: " + J)

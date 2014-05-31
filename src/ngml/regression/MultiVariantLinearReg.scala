@@ -30,27 +30,14 @@ object MultiVariantLinearReg {
             means: List[Double],
             stdDeviations: List[Double])
         	: List[List[Double]] = {
-            
-            /*println("normalize TOP. size(X): " + size(X) + " means.length: " + 
-                    means.length + " stdDeviations.length: " + stdDeviations.length)*/
-            
-            /* Octave version
-             * X_norm(i,:) = (X_norm(i,:) - mu) ./ sigma;
-             */
+
+            // Octave version: X_norm(i,:) = (X_norm(i,:) - mu) ./ sigma;
             
             if(X.isEmpty) Nil
             else {
-                println("X.head: " + X.head)
-                println("means: " + means)
-                println("stdDeviations: " + stdDeviations)
-                
-                val aggTrans = List(X.head, means, stdDeviations).transpose
-                println("aggTrans.length: " + aggTrans.length + " aggTrans: " + aggTrans)
-                
-                val normed = aggTrans.map(a => (a(0) - a(1)) / a(2))
-                println("normed: " + normed)
-                
-                normed :: normalize(X.tail, means, stdDeviations)
+                val aggregationTransposed = List(X.head, means, stdDeviations).transpose
+                val normed = aggregationTransposed.map(a => (a(0) - a(1)) / a(2)) // X - means / stdDeviations
+                normed :: normalize(X.tail, means, stdDeviations) // recursion
             }
         } // end - normalize
         
@@ -66,11 +53,8 @@ object MultiVariantLinearReg {
     		: Double = {
         val m = y.length
         val predictions = matxProd(X, theta).flatten
-        //println("predictions: " + predictions)
         val sqrErrors = dotPow(diff(predictions, y), 2)
-        //println("sqrErrors: " + sqrErrors)
         val sqrErrTotal = sqrErrors.reduceLeft(_ + _)
-        //println("sqrErrTotal: " + sqrErrTotal)
         val mu = (1.0/(2*m))
         val J = mu * sqrErrTotal
         J // cost
@@ -85,31 +69,21 @@ object MultiVariantLinearReg {
 		): (List[List[Double]], List[Double]) = {
         
         val m = y.length 
-        
-        /*
-        println("gradientDescentMulti - X: " + X)
-        println("gradientDescentMulti - y: " + y)
-        println("gradientDescentMulti - theta: " + theta)
-        */
 
         // Returns final theta and history of cost function
         def iterGradDesc(iter: Int, theta: List[List[Double]], J_history: List[Double])
         		:(List[List[Double]], List[Double]) = {
             
             if(!(iter > iterations)) { // iteration bounds
-                
                 /* Octave version: theta = theta - alpha * (1/m) * (X' * (X * theta - y)); */
                 
                 val errorsVect = diff(matxProd(X, theta).flatten, y)
-                //println("iterGradDesc - errorsVect: " + errorsVect)
                 val errors = vectToMatrix(errorsVect) // TODO: internalize into a Matrix class
                 val multXbyErrors = (matxProd(X.transpose, errors)).flatten
                 val grad = alpha * (1.0/m)
                 val deriv = multXbyErrors map(x => x * grad)
                 val newTheta_vect = diff(theta.flatten, deriv)
                 val newTheta = vectToMatrix(newTheta_vect)
-                
-                //println("iterGradDesc - newTheta: " + newTheta)
                 
                 val J = computeCost(X, y, newTheta)
                 iterGradDesc(iter + 1, newTheta, J_history ++ List(J)) // recursive iteration
